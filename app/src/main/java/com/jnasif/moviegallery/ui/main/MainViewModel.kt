@@ -9,7 +9,8 @@ import com.jnasif.moviegallery.utilities.FileHelper
 
 class MainViewModel(app : Application) : AndroidViewModel(app) {
     init {
-        val text = FileHelper.getTextFromResources(app,R.raw.tmdb_movie_discovery)
+//        val text = FileHelper.getTextFromResources(app,R.raw.tmdb_movie_discovery)
+        val text = FileHelper.getTextFromAssets(app,"tmdb_movie_discovery.json")
         Log.i(LOG_TAG, text)
     }
 }
