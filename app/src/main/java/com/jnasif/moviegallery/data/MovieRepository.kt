@@ -1,8 +1,6 @@
 package com.jnasif.moviegallery.data
 
 import android.content.Context
-import android.util.Log
-import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.utilities.FileHelper
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
