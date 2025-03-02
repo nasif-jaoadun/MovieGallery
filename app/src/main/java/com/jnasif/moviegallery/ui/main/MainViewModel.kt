@@ -4,11 +4,10 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.jnasif.moviegallery.LOG_TAG
-import com.jnasif.moviegallery.data.MovieDetails
 import com.jnasif.moviegallery.data.Movies
 import com.jnasif.moviegallery.utilities.FileHelper
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 class MainViewModel(app : Application) : AndroidViewModel(app) {
     init {
@@ -18,10 +17,10 @@ class MainViewModel(app : Application) : AndroidViewModel(app) {
     }
 
     fun parseText(text : String){
-        val moshi = Moshi.Builder().build()
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val jsonAdapter = moshi.adapter(Movies::class.java)
         val movieJson = jsonAdapter.fromJson(text)
-        val movieData = movieJson?.results
+        val movieData = movieJson?.listOfMoviesWithDetails
         for (movie in movieData ?: emptyList()){
             Log.i(LOG_TAG, "${movie.title} (\$${movie.vote_count})")
         }
