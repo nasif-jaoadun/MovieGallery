@@ -5,10 +5,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.data.MovieRepository
-import com.jnasif.moviegallery.data.Movies
-import com.jnasif.moviegallery.utilities.FileHelper
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 class MainViewModel(app : Application) : AndroidViewModel(app) {
     private val dataRepo = MovieRepository()
