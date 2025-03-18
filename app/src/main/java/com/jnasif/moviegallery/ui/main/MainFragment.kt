@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.R
 import com.jnasif.moviegallery.data.MovieDetails
 
@@ -22,15 +24,17 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val movie = MovieDetails(false, "\"/6VoxDupaW2VXfLtJyeOoGCgXSjD.jpg\"",
-            intArrayOf(1,2,3), 1, "en", "Venom : The last dance","no overview",500.12,"\"/6VoxDupaW2VXfLtJyeOoGCgXSjD.jpg\"","02-05-20024","Venom: The last dance",false,6.288,5000)
-        Log.i("Monster Tag", movie.toString())
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.movieDetailsData.observe(this, Observer {
+            for (movie in it){
+                Log.i(LOG_TAG, "${movie.title} (\$${movie.vote_count})")
+            }
+        })
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
