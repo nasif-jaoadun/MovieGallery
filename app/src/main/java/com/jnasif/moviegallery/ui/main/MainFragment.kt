@@ -11,8 +11,10 @@ import androidx.lifecycle.Observer
 import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.R
 import com.jnasif.moviegallery.data.MovieDetails
+import com.jnasif.moviegallery.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
+    private lateinit var binding : FragmentMainBinding
 
     companion object{
         fun newInstance() = MainFragment()
@@ -24,13 +26,17 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        val root: View = binding.root
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.movieDetailsData.observe(this, Observer {
+        viewModel.movieDetailsData.observe(viewLifecycleOwner, Observer {
+            val movieNames = StringBuilder()
             for (movie in it){
-                Log.i(LOG_TAG, "${movie.title} (\$${movie.vote_count})")
+                movieNames.append(movie.title).append("  ").append(movie.vote_count).append("\n")
             }
+            binding.message.text = movieNames
         })
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
