@@ -14,7 +14,7 @@ class MovieRepository(val app : Application) {
     val movieDetailsData = MutableLiveData<List<MovieDetails>>()
     init {
         getMovieData()
-        Log.i(LOG_TAG, "Network Available: ${networkAvailable()}")
+        Log.i(LOG_TAG, "Network Available?: ${networkAvailable()}")
     }
     fun getMovieData(){
 //        val text = FileHelper.getTextFromResources(app,R.raw.tmdb_movie_discovery)
