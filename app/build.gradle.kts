@@ -53,4 +53,12 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
+
+    val retrofit2_version = "2.11.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2_version")
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofit2_version")
+
+    val coroutine_version = "1.10.2"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutine-core:$coroutine_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutine-android:$coroutine_version")
 }
