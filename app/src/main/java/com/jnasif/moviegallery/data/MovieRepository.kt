@@ -6,23 +6,28 @@ import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.jnasif.moviegallery.LOG_TAG
-import com.jnasif.moviegallery.utilities.FileHelper
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.jnasif.moviegallery.WEB_SERVICE_URL
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MovieRepository(val app : Application) {
     val movieDetailsData = MutableLiveData<List<MovieDetails>>()
     init {
-        getMovieData()
-        Log.i(LOG_TAG, "Network Available?: ${networkAvailable()}")
+        CoroutineScope(Dispatchers.IO).launch {
+            callWebService()
+        }
     }
-    fun getMovieData(){
-//        val text = FileHelper.getTextFromResources(app,R.raw.tmdb_movie_discovery)
-        val text = FileHelper.getTextFromAssets(app,"tmdb_movie_discovery.json")
-        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-        val jsonAdapter = moshi.adapter(Movies::class.java)
-        val movieJson = jsonAdapter.fromJson(text)
-        movieDetailsData.value = movieJson?.listOfMoviesWithDetails ?: emptyList()
+    suspend fun callWebService(){
+        if (networkAvailable()){
+            val retrofit = Retrofit.Builder().baseUrl(WEB_SERVICE_URL).addConverterFactory(
+                MoshiConverterFactory.create()).build()
+            val service = retrofit.create(ContentService::class.java)
+            val serviceData = service.getMovieData().body()?.listOfMoviesWithDetails ?: emptyList()
+            movieDetailsData.postValue(serviceData)
+        }
     }
 
     @Suppress("DEPRECATION")

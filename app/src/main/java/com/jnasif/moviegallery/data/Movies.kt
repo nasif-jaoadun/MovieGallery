@@ -2,7 +2,7 @@ package com.jnasif.moviegallery.data
 
 import com.squareup.moshi.Json
 
-class Movies (
+data class Movies (
     val page : Int,
     @Json(name = "results") val listOfMoviesWithDetails : List<MovieDetails>,
     val total_pages : Long,
