@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.jnasif.moviegallery.LOG_TAG
+import com.jnasif.moviegallery.TOKEN
 import com.jnasif.moviegallery.WEB_SERVICE_URL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,7 @@ class MovieRepository(val app : Application) {
             val retrofit = Retrofit.Builder().baseUrl(WEB_SERVICE_URL).addConverterFactory(
                 MoshiConverterFactory.create()).build()
             val service = retrofit.create(ContentService::class.java)
-            val serviceData = service.getMovieData().body()?.listOfMoviesWithDetails ?: emptyList()
+            val serviceData = service.getMovieData(TOKEN).body()?.listOfMoviesWithDetails ?: emptyList()
             movieDetailsData.postValue(serviceData)
         }
     }
