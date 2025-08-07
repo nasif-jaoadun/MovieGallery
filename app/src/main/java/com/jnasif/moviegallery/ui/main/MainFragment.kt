@@ -30,11 +30,7 @@ class MainFragment : Fragment() {
         val root: View = binding.root
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.movieDetailsData.observe(viewLifecycleOwner, Observer {
-            val movieNames = StringBuilder()
-            for (movie in it){
-                movieNames.append(movie.title).append("  ").append(movie.vote_count).append("\n")
-            }
-            binding.message.text = movieNames
+
         })
         return root
     }
