@@ -30,7 +30,8 @@ class MainFragment : Fragment() {
         val root: View = binding.root
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.movieDetailsData.observe(viewLifecycleOwner, Observer {
-
+            val adapter = MainRecyclerAdapter(requireContext(), it)
+            binding.recyclerView.adapter = adapter
         })
         return root
     }

@@ -61,4 +61,7 @@ dependencies {
     val coroutines_version = "1.2.1"
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
+
+    val glide_version = "4.16.0"
+    implementation ("com.github.bumptech.glide:glide:$glide_version")
 }
