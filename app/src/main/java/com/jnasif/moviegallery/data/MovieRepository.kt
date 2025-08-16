@@ -17,9 +17,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class MovieRepository(val app : Application) {
     val movieDetailsData = MutableLiveData<List<MovieDetails>>()
     init {
-        CoroutineScope(Dispatchers.IO).launch {
-            callWebService()
-        }
+        refreshData()
     }
     suspend fun callWebService(){
         if (networkAvailable()){
@@ -36,5 +34,11 @@ class MovieRepository(val app : Application) {
         val connectivityManager = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo?.isConnectedOrConnecting ?: false
+    }
+
+    fun refreshData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            callWebService()
+        }
     }
 }

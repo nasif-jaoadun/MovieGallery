@@ -28,6 +28,9 @@ class MainFragment : Fragment() {
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.refreshData()
+        }
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.movieDetailsData.observe(viewLifecycleOwner, Observer {
             val adapter = MainRecyclerAdapter(requireContext(), it)
