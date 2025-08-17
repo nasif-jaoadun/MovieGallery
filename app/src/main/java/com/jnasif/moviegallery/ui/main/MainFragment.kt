@@ -10,11 +10,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.PAGE_COUNT
-import com.jnasif.moviegallery.R
 import com.jnasif.moviegallery.data.MovieDetails
 import com.jnasif.moviegallery.databinding.FragmentMainBinding
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), MainRecyclerAdapter.MovieItemListener {
     private lateinit var binding : FragmentMainBinding
 
     companion object{
@@ -34,7 +33,7 @@ class MainFragment : Fragment() {
         }
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.movieDetailsData.observe(viewLifecycleOwner, Observer {
-            val adapter = MainRecyclerAdapter(requireContext(), it)
+            val adapter = MainRecyclerAdapter(requireContext(), it, this)
             binding.recyclerView.adapter = adapter
             binding.refreshLayout.isRefreshing = false
             PAGE_COUNT += 1
@@ -45,6 +44,10 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // TODO: Use the ViewModel
+    }
+
+    override fun onMovieItemClick(movieDetails: MovieDetails) {
+        Log.i(LOG_TAG, "Selected Movie: ${movieDetails.title}")
     }
 
 }

@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.jnasif.moviegallery.R
 import com.jnasif.moviegallery.data.MovieDetails
 
-class MainRecyclerAdapter (val context : Context, val moviesDetail : List<MovieDetails>) : RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder>() {
+class MainRecyclerAdapter (val context : Context, val moviesDetail : List<MovieDetails>, val movieItemListener: MovieItemListener) : RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemview : View) : RecyclerView.ViewHolder(itemview){
         val nameText = itemview.findViewById<TextView>(R.id.nameText)
@@ -37,6 +37,13 @@ class MainRecyclerAdapter (val context : Context, val moviesDetail : List<MovieD
             }
             ratingBar?.rating = movieDetails.vote_average/2
             Glide.with(context).load(movieDetails.posterUrl).into(moviePosterImage)
+            holder.itemView.setOnClickListener{
+                movieItemListener.onMovieItemClick(movieDetails)
+            }
         }
+    }
+
+    interface MovieItemListener{
+        fun onMovieItemClick(movieDetails: MovieDetails)
     }
 }
