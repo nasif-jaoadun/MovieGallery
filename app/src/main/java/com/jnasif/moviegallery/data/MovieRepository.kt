@@ -3,9 +3,7 @@ package com.jnasif.moviegallery.data
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.TOKEN
 import com.jnasif.moviegallery.WEB_SERVICE_URL
 import kotlinx.coroutines.CoroutineScope
