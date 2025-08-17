@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.jnasif.moviegallery.LOG_TAG
+import com.jnasif.moviegallery.PAGE_COUNT
 import com.jnasif.moviegallery.R
 import com.jnasif.moviegallery.data.MovieDetails
 import com.jnasif.moviegallery.databinding.FragmentMainBinding
@@ -35,6 +36,8 @@ class MainFragment : Fragment() {
         viewModel.movieDetailsData.observe(viewLifecycleOwner, Observer {
             val adapter = MainRecyclerAdapter(requireContext(), it)
             binding.recyclerView.adapter = adapter
+            binding.refreshLayout.isRefreshing = false
+            PAGE_COUNT += 1
         })
         return root
     }
