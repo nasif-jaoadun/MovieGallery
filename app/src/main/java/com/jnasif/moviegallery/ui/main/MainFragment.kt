@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.PAGE_COUNT
 import com.jnasif.moviegallery.R
@@ -32,7 +33,7 @@ class MainFragment : Fragment(), MainRecyclerAdapter.MovieItemListener {
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host)
+        navController = findNavController()
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refreshData()
         }
