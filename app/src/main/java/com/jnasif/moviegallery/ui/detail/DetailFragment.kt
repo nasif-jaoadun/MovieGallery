@@ -45,6 +45,7 @@ class DetailFragment : Fragment() {
         (requireActivity() as AppCompatActivity).run {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+        setHasOptionsMenu(true)
         navController = findNavController()
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
