@@ -10,13 +10,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.PAGE_COUNT
 import com.jnasif.moviegallery.R
 import com.jnasif.moviegallery.data.MovieDetails
 import com.jnasif.moviegallery.databinding.FragmentMainBinding
+import com.jnasif.moviegallery.ui.shared.SharedViewModel
 
 class MainFragment : Fragment(), MainRecyclerAdapter.MovieItemListener {
     private lateinit var binding : FragmentMainBinding
@@ -25,7 +25,7 @@ class MainFragment : Fragment(), MainRecyclerAdapter.MovieItemListener {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: SharedViewModel
     private lateinit var navController: NavController
 
     override fun onCreateView(
@@ -41,7 +41,7 @@ class MainFragment : Fragment(), MainRecyclerAdapter.MovieItemListener {
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refreshData()
         }
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         viewModel.movieDetailsData.observe(viewLifecycleOwner, Observer {
             val adapter = MainRecyclerAdapter(requireActivity(), it, this)
             binding.recyclerView.adapter = adapter
@@ -58,6 +58,7 @@ class MainFragment : Fragment(), MainRecyclerAdapter.MovieItemListener {
 
     override fun onMovieItemClick(movieDetails: MovieDetails) {
         Log.i(LOG_TAG, "Selected Movie: ${movieDetails.title}")
+        viewModel.selectedMovieDetails.value = movieDetails
         navController.navigate(R.id.action_nav_detail)
     }
 
