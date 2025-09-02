@@ -30,20 +30,20 @@
             tools:text="Mingle"/>
 
         <TextView
-            android:id="@+id/releaseDateText"
+            android:id="@+id/popularityText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.selectedMovieDetails.release_date"
+            app:popularity="@{viewModel.selectedMovieDetails.popularity}"
             app:layout_constraintTop_toTopOf="@+id/titleText"
             app:layout_constraintStart_toStartOf="@id/trailerButton"
             app:layout_constraintEnd_toEndOf="@id/trailerButton"
-            tools:text="@string/release_date"/>
+            tools:text="100%"/>
 
         <Button
             android:id="@+id/trailerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/releaseDateText"
+            app:layout_constraintTop_toBottomOf="@+id/popularityText"
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/Widget.AppCompat.Button.Colored"
             android:text="@string/trailer"/>
@@ -54,6 +54,7 @@
             android:layout_height="0dp"
             android:layout_margin="8dp"
             android:layout_marginTop="16dp"
+            app:imageUrl="@{viewModel.selectedMovieDetails.posterUrl}"
             app:layout_constraintTop_toBottomOf="@+id/trailerButton"
             app:layout_constraintBottom_toTopOf="@+id/overviewText"
             app:layout_constraintStart_toStartOf="parent"
