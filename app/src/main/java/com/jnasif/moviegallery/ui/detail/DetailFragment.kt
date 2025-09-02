@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.R
+import com.jnasif.moviegallery.databinding.FragmentDetailBinding
 import com.jnasif.moviegallery.ui.shared.SharedViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,10 +53,11 @@ class DetailFragment : Fragment() {
         setHasOptionsMenu(true)
         navController = findNavController()
         viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        viewModel.selectedMovieDetails.observe(viewLifecycleOwner, Observer {
-            Log.i(LOG_TAG, "Selected Monster: ${it.title}")
-        })
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        val binding = FragmentDetailBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+        return binding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
