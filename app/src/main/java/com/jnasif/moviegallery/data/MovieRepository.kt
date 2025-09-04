@@ -9,6 +9,10 @@ import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.PAGE_COUNT
 import com.jnasif.moviegallery.TOKEN
 import com.jnasif.moviegallery.WEB_SERVICE_URL
+import com.jnasif.moviegallery.utilities.FileHelper
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +32,7 @@ class MovieRepository(val app : Application) {
             val service = retrofit.create(ContentService::class.java)
             val serviceData = service.getMovieData(TOKEN, PAGE_COUNT).body()?.listOfMoviesWithDetails ?: emptyList()
             movieDetailsData.postValue(serviceData)
+            saveMovieDetailDataToCache(serviceData)
         }
     }
 
@@ -43,5 +48,12 @@ class MovieRepository(val app : Application) {
             callWebService()
         }
     }
-    
+
+    private fun saveMovieDetailDataToCache(movieDetailData: List<MovieDetails>){
+        val moshi = Moshi.Builder().build()
+        val listType = Types.newParameterizedType(List::class.java, MovieDetails::class.java)
+        val adapter: JsonAdapter<List<MovieDetails>> = moshi.adapter(listType)
+        val json = adapter.toJson(movieDetailData)
+        FileHelper.saveTextToFile(app, json)
+    }
 }
