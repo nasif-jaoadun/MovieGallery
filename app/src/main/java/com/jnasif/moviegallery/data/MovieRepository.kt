@@ -22,7 +22,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class MovieRepository(val app : Application) {
     val movieDetailsData = MutableLiveData<List<MovieDetails>>()
     init {
-        refreshData()
+        val data = readDataFromCache()
+        if (data.isEmpty()){
+            refreshDataFromWeb()
+        } else{
+            movieDetailsData.value = data
+            Log.i(LOG_TAG, "Using local data")
+        }
     }
     suspend fun callWebService(){
         if (networkAvailable()){
@@ -43,7 +49,7 @@ class MovieRepository(val app : Application) {
         return networkInfo?.isConnectedOrConnecting ?: false
     }
 
-    fun refreshData() {
+    fun refreshDataFromWeb() {
         CoroutineScope(Dispatchers.IO).launch {
             callWebService()
         }
@@ -55,5 +61,16 @@ class MovieRepository(val app : Application) {
         val adapter: JsonAdapter<List<MovieDetails>> = moshi.adapter(listType)
         val json = adapter.toJson(movieDetailData)
         FileHelper.saveTextToFile(app, json)
+    }
+
+    private fun readDataFromCache() : List<MovieDetails>{
+        val json= FileHelper.readTextFile(app)
+        if (json == null){
+            return emptyList()
+        }
+        val moshi= Moshi.Builder().build()
+        val listType = Types.newParameterizedType(List::class.java, MovieDetails::class.java)
+        val adapter: JsonAdapter<List<MovieDetails>> = moshi.adapter(listType)
+        return adapter.fromJson(json)?: emptyList()
     }
 }

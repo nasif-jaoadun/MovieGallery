@@ -12,6 +12,6 @@ class SharedViewModel(app : Application) : AndroidViewModel(app) {
     val movieDetailsData = dataRepo.movieDetailsData
     val selectedMovieDetails = MutableLiveData<MovieDetails>()
     fun refreshData() {
-        dataRepo.refreshData()
+        dataRepo.refreshDataFromWeb()
     }
 }
