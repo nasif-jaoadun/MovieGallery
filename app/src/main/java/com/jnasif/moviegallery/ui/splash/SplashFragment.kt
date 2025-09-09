@@ -1,9 +1,13 @@
 package com.jnasif.moviegallery.ui.splash
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -13,6 +17,7 @@ import com.jnasif.moviegallery.R
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+const val PERMISSION_REQUEST_CODE = 1001
 /**
  * A simple [Fragment] subclass.
  * Use the [SplashFragment.newInstance] factory method to
@@ -35,9 +40,28 @@ class SplashFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        displayMainFragment()
+        if (ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
+            displayMainFragment()
+        } else {
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                PERMISSION_REQUEST_CODE)
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_splash, container, false)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == PERMISSION_REQUEST_CODE){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                displayMainFragment()
+            }else{
+                Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun displayMainFragment() {
