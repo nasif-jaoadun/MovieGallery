@@ -1,9 +1,12 @@
 package com.jnasif.moviegallery.data
 
+import android.Manifest
 import android.app.Application
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.jnasif.moviegallery.LOG_TAG
 import com.jnasif.moviegallery.PAGE_COUNT
@@ -56,15 +59,17 @@ class MovieRepository(val app : Application) {
     }
 
     private fun saveMovieDetailDataToCache(movieDetailData: List<MovieDetails>){
-        val moshi = Moshi.Builder().build()
-        val listType = Types.newParameterizedType(List::class.java, MovieDetails::class.java)
-        val adapter: JsonAdapter<List<MovieDetails>> = moshi.adapter(listType)
-        val json = adapter.toJson(movieDetailData)
-        FileHelper.saveTextToFile(app, json)
+        if (ContextCompat.checkSelfPermission(app, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
+            val moshi = Moshi.Builder().build()
+            val listType = Types.newParameterizedType(List::class.java, MovieDetails::class.java)
+            val adapter: JsonAdapter<List<MovieDetails>> = moshi.adapter(listType)
+            val json = adapter.toJson(movieDetailData)
+            FileHelper.saveTextToExternalStorageFile(app, json)
+        }
     }
 
     private fun readDataFromCache() : List<MovieDetails>{
-        val json= FileHelper.readTextFile(app)
+        val json= FileHelper.readTextFromExternalStorageFile(app)
         if (json == null){
             return emptyList()
         }

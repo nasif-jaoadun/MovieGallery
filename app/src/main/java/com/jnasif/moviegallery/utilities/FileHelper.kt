@@ -31,5 +31,17 @@ class FileHelper {
             }else null
         }
 
+        fun saveTextToExternalStorageFile(app: Application, json: String?) {
+            val file = File(app.getExternalFilesDir("movieDetails"), "movieDetails.json")
+            file.writeText(json ?: "", Charsets.UTF_8)
+        }
+
+        fun readTextFromExternalStorageFile(app: Application) : String? {
+            val file = File(app.getExternalFilesDir("movieDetails"), "movieDetails.json")
+            return if(file.exists()){
+                file.readText()
+            }else null
+        }
+
     }
 }
