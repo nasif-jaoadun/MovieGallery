@@ -67,4 +67,5 @@ dependencies {
 
     val glide_version = "4.16.0"
     implementation ("com.github.bumptech.glide:glide:$glide_version")
+    
 }
