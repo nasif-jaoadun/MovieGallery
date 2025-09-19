@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
+//    id("com.google.devtools.ksp")
 }
 
 android {
@@ -67,5 +68,17 @@ dependencies {
 
     val glide_version = "4.16.0"
     implementation ("com.github.bumptech.glide:glide:$glide_version")
-    
+
+    val room_version = "2.8.0"
+    implementation ("androidx.room:room-runtime:$room_version")
+    implementation ("androidx.room:room-ktx:$room_version") // For Kotlin extensions and coroutine support
+    // If you're using Kotlin Annotation Processing (kapt) instead of KSP
+    kapt ("androidx.room:room-compiler:$room_version")
+    // Use ksp for annotation processing if you're using Kotlin Symbol Processing
+    // ksp ("androidx.room:room-compiler:$room_version")
+    // Optional: for testing Room migrations
+    // androidTestImplementation ("androidx.room:room-testing:$room_version")
+    // Optional: for RxJava support
+    // implementation "androidx.room:room-rxjava2:$room_version"
+    // implementation "androidx.room:room-rxjava3:$room_version"
 }
