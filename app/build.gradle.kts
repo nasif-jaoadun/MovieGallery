@@ -69,7 +69,7 @@ dependencies {
     val glide_version = "4.16.0"
     implementation ("com.github.bumptech.glide:glide:$glide_version")
 
-    val room_version = "2.8.0"
+    val room_version = "2.1.0"
     implementation ("androidx.room:room-runtime:$room_version")
     implementation ("androidx.room:room-ktx:$room_version") // For Kotlin extensions and coroutine support
     // If you're using Kotlin Annotation Processing (kapt) instead of KSP
