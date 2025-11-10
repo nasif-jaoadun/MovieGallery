@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.jnasif.moviegallery.IMAGE_BASE_URL
 
-@Entity(tableName = "movie_with_details")
+@Entity(tableName = "movies")
 data class MovieDetails(
     val adult: Boolean,
     val backdrop_path: String,

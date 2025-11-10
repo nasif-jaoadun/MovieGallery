@@ -1,11 +1,13 @@
 package com.jnasif.moviegallery.data
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 
+@Dao
 interface MovieDetailsDao {
 
-    @Query("SELECT * from movie_with_details")
+    @Query("SELECT * from movies")
     fun getAll() : List<MovieDetails>
 
     @Insert
@@ -14,6 +16,6 @@ interface MovieDetailsDao {
     @Insert
     suspend fun insertMovies(movies : List<MovieDetails>)
 
-    @Query("DELETE from movie_with_details")
+    @Query("DELETE from movies")
     suspend fun deleteAll()
 }

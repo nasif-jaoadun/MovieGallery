@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.util.Log
+import android.widget.Toast
+import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.jnasif.moviegallery.LOG_TAG
@@ -19,22 +21,32 @@ import com.squareup.moshi.Types
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MovieRepository(val app : Application) {
     val movieDetailsData = MutableLiveData<List<MovieDetails>>()
+    private val movieDao = MovieDatabase.getDatabase(app).movieDao()
     init {
-        val data = readDataFromCache()
-        if (data.isEmpty()){
-            refreshDataFromWeb()
-        } else{
-            movieDetailsData.value = data
-            Log.i(LOG_TAG, "Using local data")
+        CoroutineScope(Dispatchers.IO).launch {
+            val data = movieDao.getAll()
+            if (data.isEmpty()){
+                callWebService()
+            }else{
+                movieDetailsData.postValue(data)
+                withContext(Dispatchers.Main){
+                    Toast.makeText(app, "Using Local data", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
+    @WorkerThread
     suspend fun callWebService(){
         if (networkAvailable()){
+            withContext(Dispatchers.Main){
+                Toast.makeText(app, "Using Remote data", Toast.LENGTH_LONG).show()
+            }
             Log.i(LOG_TAG, "Calling web service")
             val retrofit = Retrofit.Builder().baseUrl(WEB_SERVICE_URL).addConverterFactory(
                 MoshiConverterFactory.create()).build()
