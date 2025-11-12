@@ -2,6 +2,7 @@ package com.jnasif.moviegallery.utilities
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.jnasif.moviegallery.LAYOUT_TYPE_LIST
 
 const val ITEM_TYPE_KEY = "item_type_key"
 class PrefsHelper {
@@ -12,7 +13,7 @@ class PrefsHelper {
             preferences(context).edit().putString(ITEM_TYPE_KEY, type).apply()
         }
 
-        fun getItemType(context: Context) : String = preferences(context).getString(ITEM_TYPE_KEY, "list")!!
+        fun getItemType(context: Context) : String = preferences(context).getString(ITEM_TYPE_KEY, LAYOUT_TYPE_LIST)!!
     }
 
 }

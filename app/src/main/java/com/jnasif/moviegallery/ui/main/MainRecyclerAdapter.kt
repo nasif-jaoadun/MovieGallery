@@ -9,8 +9,10 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.jnasif.moviegallery.LAYOUT_TYPE_GRID
 import com.jnasif.moviegallery.R
 import com.jnasif.moviegallery.data.MovieDetails
+import com.jnasif.moviegallery.utilities.PrefsHelper
 
 class MainRecyclerAdapter (val context : Context, val moviesDetail : List<MovieDetails>, val movieItemListener: MovieItemListener) : RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder>() {
 
@@ -24,7 +26,13 @@ class MainRecyclerAdapter (val context : Context, val moviesDetail : List<MovieD
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.movie_grid_item, parent, false)
+        val layoutStyle = PrefsHelper.getItemType(parent.context)
+        val layoutId = if (layoutStyle == LAYOUT_TYPE_GRID){
+            R.layout.movie_grid_item
+        }else{
+            R.layout.movie_list_item
+        }
+        val view = inflater.inflate(layoutId, parent, false)
         return ViewHolder(view)
     }
 
