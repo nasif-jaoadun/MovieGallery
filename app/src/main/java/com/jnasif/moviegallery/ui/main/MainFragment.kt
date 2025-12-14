@@ -64,6 +64,9 @@ class MainFragment : Fragment(), MainRecyclerAdapter.MovieItemListener {
             binding.refreshLayout.isRefreshing = false
             PAGE_COUNT += 1
         })
+        viewModel.activityTitle.observe(viewLifecycleOwner, Observer {
+            requireActivity().title = it
+        })
         return root
     }
 
@@ -102,4 +105,8 @@ class MainFragment : Fragment(), MainRecyclerAdapter.MovieItemListener {
         return true
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateActivityTitle()
+    }
 }

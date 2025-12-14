@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.jnasif.moviegallery"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.jnasif.moviegallery"
